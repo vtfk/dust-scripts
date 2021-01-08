@@ -8,6 +8,8 @@ project.lock.json
 /Packages/
 *.nuget.props
 
+envs.ps1
+
 # dotnet cli install/uninstall scripts
 dotnet-install.ps1
 dotnet-install.sh
