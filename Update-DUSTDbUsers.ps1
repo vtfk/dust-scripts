@@ -1,8 +1,9 @@
 ﻿# skrives om til å compare før insert / delete
 
+# import environment variables
 . .\envs.ps1
 
-if (!$connectionString -or !$dbName -or !$dbCollection) {
+if (!$db.connectionString -or !$db.dbName -or !$db.dbCollection) {
     Write-Error "RTFM (DUST!)" -ErrorAction Stop
 }
 
@@ -15,9 +16,9 @@ $disabledLoginUsers = D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "log
 $disabledSkoleUsers = D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,department -OnlyDisabledAutoUsers
 
 # connect to MONGO
-Connect-Mdbc -ConnectionString $connectionString -DatabaseName $dbName -CollectionName $dbCollection
+Connect-Mdbc -ConnectionString $db.connectionString -DatabaseName $db.dbName -CollectionName $db.dbCollection
 
-# purge all users from dbName
+# purge all users from $db.dbName
 Remove-MdbcData -Many -Filter "{}"
 
 # add all users to MONGO

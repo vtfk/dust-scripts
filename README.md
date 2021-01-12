@@ -6,9 +6,11 @@ Scripts for DUST
 
 Create a `envs.ps1` file with this content:
 ```PowerShell
-$connectionString = "mongodb+srv://<username>:<password>@<sørver>?retryWrites=true&w=majority"
-$dbName = "databasename"
-$dbCollection = "collectionname"
+$db = @{
+  connectionString = "mongodb+srv://<username>:<password>@<server>?retryWrites=true&w=majority"
+  dbName = "databasename"
+  dbCollection = "collectionname"
+}
 ```
 
 ## Database
