@@ -11,6 +11,12 @@ $db = @{
   dbName = "databasename"
   dbCollection = "collectionname"
 }
+
+$visma = @{
+  baseUri = "<visma-hrm-address>"
+  username = "<username>"
+  password = "<password>"
+}
 ```
 
 ## Database
