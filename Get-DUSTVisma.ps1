@@ -42,7 +42,7 @@ Function Start-SanitizeDataData
         $CustomObj.employments.employment.bankDetails = $null
         
         if ($CustomObj.employments.employment.positions.position.Count) {
-            $CustomObj.employments.employment.positions.position | % {
+            $CustomObj.employments.employment.positions.position | ForEach-Object {
                 if ($_.fixedTransactions) {
                     $_.fixedTransactions = $null
                 }
@@ -79,7 +79,7 @@ if ($EmployeeNumber) {
 }
 else {
     [XML]$result = Invoke-RestMethod -Uri "$($visma.baseUri)/name/firstname/$FirstName/lastname/$LastName" -Credential $credential -Method Get
-    $json = [Newtonsoft.Json.JsonConvert]::SerializeXmlNode($result.personsXML) | ConvertFrom-Json | Select -ExpandProperty personsXML
+    $json = [Newtonsoft.Json.JsonConvert]::SerializeXmlNode($result.personsXML) | ConvertFrom-Json | Select-Object -ExpandProperty personsXML
 }
 
 if (!$json.person) {
