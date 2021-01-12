@@ -68,7 +68,8 @@ Function Start-SanitizeDataData
 }
 
 # import environment variables
-. .\envs.ps1
+$envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
+. $envPath
 
 $credential = New-Object pscredential -ArgumentList $visma.username,(ConvertTo-SecureString -String $visma.password -AsPlainText -Force)
 

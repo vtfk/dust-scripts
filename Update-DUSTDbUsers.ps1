@@ -1,7 +1,8 @@
 ﻿# skrives om til å compare før insert / delete
 
 # import environment variables
-. .\envs.ps1
+$envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
+. $envPath
 
 if (!$db.connectionString -or !$db.dbName -or !$db.dbCollection) {
     Write-Error "RTFM (DUST!)" -ErrorAction Stop
