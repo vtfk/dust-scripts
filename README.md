@@ -17,6 +17,12 @@ $visma = @{
   username = "<username>"
   password = "<password>"
 }
+
+$ad = @{
+  baseUnit = "<OU-PATH>,DC=%domain%,DC=<subforrest>,DC=<subsubforrest>" # '%domain%' MUST be left as is! Change '<OU-PATH>', '<subforrest>' and '<subsubforrest>'. Remove those not in use.
+  autoUsers = "<USERS-OU-PATH>" # OU path your auto users. Don't include baseUnit OU path
+  disabledUsers = "<DISABLED-USERS-OU-PATH>" # OU path your disabled auto users. Don't include baseUnit OU path
+}
 ```
 
 ## Database
