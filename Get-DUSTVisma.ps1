@@ -9,6 +9,19 @@ param(
     [string]$LastName
 )
 
+# make sure Newtonsoft.Json.JsonConvert is accesible, otherwise import it from System32. If not found, script will fail
+try {
+    [Newtonsoft.Json.JsonConvert] | Out-Null
+}
+catch {
+    try {
+        [Reflection.Assembly]::LoadFile("C:\Windows\System32\Newtonsoft.Json.dll") | Out-Null
+    }
+    catch {
+        Write-Error "'Newtonsoft.Json.JsonConvert' not found. Make sure it's installed on the server!" -ErrorAction Stop
+    }
+}
+
 if (!$EmployeeNumber -and (!$FirstName -or !$LastName)) {
     Write-Error "Parameter 'FirstName' and 'LastName' must be filled out!" -ErrorAction Stop
 }
