@@ -19,7 +19,7 @@ param(
 )
 
 # default properties that must be present!
-@('DistinguishedName', 'Enabled', 'GivenName', 'Name', 'SamAccountName', 'SurName', 'UserPrincipalName') | % {
+@('DistinguishedName', 'Enabled', 'GivenName', 'Name', 'SamAccountName', 'sn', 'UserPrincipalName', 'displayName', 'employeeNumber','extensionAttribute6','company','department') | % {
     if (!$Properties.ToLower().Contains($_.ToLower())) {
         $Properties += $_
     }
