@@ -64,3 +64,6 @@ if ($autoUsers) {
 elseif ($autoDisabledUsers) {
     return $autoDisabledUsers | .\ConvertTo-DustJson.ps1
 }
+else {
+    Write-Error -Message "No user found!"
+}
