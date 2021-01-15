@@ -19,7 +19,7 @@ param(
 )
 
 # default properties that must be present!
-@('DistinguishedName', 'Enabled', 'GivenName', 'Name', 'SamAccountName', 'sn', 'UserPrincipalName', 'displayName', 'employeeNumber','extensionAttribute6','company','department', 'pwdLastSet') | % {
+@('DistinguishedName', 'Enabled', 'GivenName', 'Name', 'SamAccountName', 'sn', 'UserPrincipalName', 'displayName', 'employeeNumber','extensionAttribute6','company','department', 'pwdLastSet') | ForEach-Object {
     if (!$Properties.ToLower().Contains($_.ToLower())) {
         $Properties += $_
     }
@@ -51,8 +51,8 @@ $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 
 $searchBase = $ad.baseUnit.Replace("%domain%", $Domain)
 
-$autoUsers = Get-ADUser -SearchBase "$($ad.autoUsers),$searchBase" -Server $domain -Filter $filter -Properties $Properties | Select ($Properties | Sort-Object)
-$autoDisabledUsers = Get-ADUser -SearchBase "$($ad.disabledUsers),$searchBase" -Server $domain -Filter $filter -Properties $Properties | Select ($Properties | Sort-Object)
+$autoUsers = Get-ADUser -SearchBase "$($ad.autoUsers),$searchBase" -Server $domain -Filter $filter -Properties $Properties | Select-Object ($Properties | Sort-Object)
+$autoDisabledUsers = Get-ADUser -SearchBase "$($ad.disabledUsers),$searchBase" -Server $domain -Filter $filter -Properties $Properties | Select-Object ($Properties | Sort-Object)
 
 if ($autoUsers) {
     if ($autoDisabledUsers) {
