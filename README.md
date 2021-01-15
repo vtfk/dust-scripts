@@ -23,6 +23,11 @@ $ad = @{
   autoUsers = "<USERS-OU-PATH>" # OU path your auto users. Don't include baseUnit OU path
   disabledUsers = "<DISABLED-USERS-OU-PATH>" # OU path your disabled auto users. Don't include baseUnit OU path
 }
+
+$feide = @{
+    server = "<FQDN-to-feide-server>"
+    searchBase = "OU=People,OU=Feide,DC=<feide-ou-name>,DC=no"
+}
 ```
 
 ## Database
