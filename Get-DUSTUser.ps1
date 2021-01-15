@@ -42,7 +42,7 @@ else {
 }
 
 if (!$Domain) {
-    Write-Error -Message "Domain parameter is required!" -ErrorAction Stop
+    Write-Error -Message "Missing required parameter: 'Domain'" -ErrorAction Stop
 }
 
 # import environment variables
@@ -65,5 +65,5 @@ elseif ($autoDisabledUsers) {
     return $autoDisabledUsers | .\ConvertTo-DustJson.ps1
 }
 else {
-    Write-Error -Message "No user found!"
+    Write-Error -Message "No user was found! :("
 }
