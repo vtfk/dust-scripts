@@ -10,6 +10,13 @@ if (!$SamAccountName) {
     Write-Error -Message "Missing required parameter: 'SamAccountName'" -ErrorAction Stop
 }
 
+# default properties that must be present!
+@('distinguishedName', 'enabled', 'GivenName', 'Name', 'Surname', 'UserPrincipalName', 'displayName', 'employeeNumber', 'company', 'department', 'passwordLastSet', 'whenChanged', 'whenCreated', 'eduPersonAffiliation', 'eduPersonEntitlement', 'eduPersonOrgUnitDN', 'norEduPersonAuthnMethod') | ForEach-Object {
+    if (!$Properties.ToLower().Contains($_.ToLower())) {
+        $Properties += $_
+    }
+}
+
 # import environment variables
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 . $envPath
