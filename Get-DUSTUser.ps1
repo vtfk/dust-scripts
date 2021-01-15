@@ -56,11 +56,11 @@ $autoDisabledUsers = Get-ADUser -SearchBase "$($ad.disabledUsers),$searchBase" -
 
 if ($autoUsers) {
     if ($autoDisabledUsers) {
-        return ($autoUsers + $autoDisabledUsers) | ConvertTo-Json
+        return ($autoUsers + $autoDisabledUsers) | .\ConvertTo-DustJson.ps1
     }
 
-    return $autoUsers | ConvertTo-Json
+    return $autoUsers | .\ConvertTo-DustJson.ps1
 }
 elseif ($autoDisabledUsers) {
-    return $autoDisabledUsers | ConvertTo-Json
+    return $autoDisabledUsers | .\ConvertTo-DustJson.ps1
 }
