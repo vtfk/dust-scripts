@@ -18,11 +18,8 @@ param(
     [string[]]$Properties = @('givenName','sn','displayName','employeeNumber','extensionAttribute6','company','department', 'pwdLastSet')
 )
 
-# default properties that must be present!
-@('DistinguishedName', 'Enabled', 'GivenName', 'Name', 'SamAccountName', 'sn', 'UserPrincipalName', 'displayName', 'employeeNumber', 'extensionAttribute6', 'company', 'department', 'pwdLastSet', 'whenChanged', 'whenCreated') | ForEach-Object {
-    if (!$Properties.ToLower().Contains($_.ToLower())) {
-        $Properties += $_
-    }
+if (!$Domain) {
+    Write-Error -Message "Missing required parameter: 'Domain'" -ErrorAction Stop
 }
 
 if ($SamAccountName) {
@@ -41,8 +38,11 @@ else {
     Write-Error -Message "One of these parameters must be present: 'SamAccountName' , 'UserPrincipalName' , 'EmployeeNumber' , 'DisplayName' !" -ErrorAction Stop
 }
 
-if (!$Domain) {
-    Write-Error -Message "Missing required parameter: 'Domain'" -ErrorAction Stop
+# default properties that must be present!
+@('DistinguishedName', 'Enabled', 'GivenName', 'Name', 'SamAccountName', 'sn', 'UserPrincipalName', 'displayName', 'employeeNumber', 'extensionAttribute6', 'company', 'department', 'pwdLastSet', 'whenChanged', 'whenCreated') | ForEach-Object {
+    if (!$Properties.ToLower().Contains($_.ToLower())) {
+        $Properties += $_
+    }
 }
 
 # import environment variables
