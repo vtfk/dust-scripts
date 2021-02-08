@@ -3,7 +3,7 @@ param (
     $obj,
 
     [Parameter()]
-    $depth = 20
+    [int]$depth = 20
 )
 
 process {
