@@ -1,9 +1,6 @@
 param (
     [Parameter(ValueFromPipeline)]
-    $obj,
-
-    [Parameter()]
-    [int]$depth = 20
+    $obj
 )
 
 process {
@@ -15,5 +12,5 @@ process {
         }
     }
 
-    return $obj | ConvertTo-Json -Depth $depth
+    return $obj
 }
