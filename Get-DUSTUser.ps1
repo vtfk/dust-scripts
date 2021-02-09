@@ -65,5 +65,6 @@ elseif ($autoDisabledUsers) {
     return $autoDisabledUsers | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
 }
 else {
-    Write-Error -Message "No user was found! :("
+    # No user was found :(
+    return "[]"
 }

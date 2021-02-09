@@ -23,7 +23,8 @@ $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 
 $user = Get-ADUser -Filter { Name -eq $SamAccountName } -Server $feide.server -SearchBase $feide.searchBase -Properties $Properties | Select-Object $Properties
 if(!$user) {
-    Write-Error -Message "No user was found! :(" -ErrorAction Stop
+    # No user was found! :(
+    return "[]"
 }
 
 return $user | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
