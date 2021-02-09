@@ -26,4 +26,4 @@ if(!$user) {
     Write-Error -Message "No user was found! :(" -ErrorAction Stop
 }
 
-return $user | .\ConvertTo-DustJson.ps1 | ConvertTo-Json -Depth 20
+return $user | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20

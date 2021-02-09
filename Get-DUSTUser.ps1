@@ -56,13 +56,13 @@ $autoDisabledUsers = Get-ADUser -SearchBase "$($ad.disabledUsers),$searchBase" -
 
 if ($autoUsers) {
     if ($autoDisabledUsers) {
-        return ($autoUsers + $autoDisabledUsers) | .\ConvertTo-DustJson.ps1 | ConvertTo-Json -Depth 20
+        return ($autoUsers + $autoDisabledUsers) | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
     }
 
-    return $autoUsers | .\ConvertTo-DustJson.ps1 | ConvertTo-Json -Depth 20
+    return $autoUsers | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
 }
 elseif ($autoDisabledUsers) {
-    return $autoDisabledUsers | .\ConvertTo-DustJson.ps1 | ConvertTo-Json -Depth 20
+    return $autoDisabledUsers | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
 }
 else {
     Write-Error -Message "No user was found! :("

@@ -86,4 +86,4 @@ if (!$json.person) {
     return "[]"
 }
 
-$json.person | Start-SanitizeDataData | .\ConvertTo-DustJson.ps1 | ConvertTo-Json -Depth 20
+$json.person | Start-SanitizeDataData | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
