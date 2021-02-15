@@ -30,7 +30,7 @@ $feide = @{
 }
 
 $sds = @{
-    server = "<FQDN-to-sds-server>"
+    server = "<FQDN-to-sds-server-if-not-local>" # if files are local, set '.'
     folderPath = "<local-folder-path-to-sds-csv-files>"
     delimiter = ","
 }

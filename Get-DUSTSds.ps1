@@ -26,7 +26,12 @@ Function Get-SdsData {
         [string]$Value
     )
 
-    return Invoke-Command -ComputerName $sds.server -ScriptBlock { return Import-Csv -Path "$($Using:sds.folderPath)\$Using:File" -Delimiter $Using:sds.delimiter -Encoding UTF8 | Where-Object { $_.$Using:Header -eq $Using:Value } }
+    if ($sds.server -ne ".") {
+        return Invoke-Command -ComputerName $sds.server -ScriptBlock { return Import-Csv -Path "$($Using:sds.folderPath)\$Using:File" -Delimiter $Using:sds.delimiter -Encoding UTF8 | Where-Object { $_.$Using:Header -eq $Using:Value } }
+    }
+    else {
+        return Import-Csv -Path "$($sds.folderPath)\$File" -Delimiter $sds.delimiter -Encoding UTF8 | Where-Object { $_.$Header -eq $Value }
+    }
 }
 
 Function Get-SdsEnrollmentData {
