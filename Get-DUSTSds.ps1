@@ -29,6 +29,42 @@ Function Get-SdsData {
     return Invoke-Command -ComputerName $sds.server -ScriptBlock { return Import-Csv -Path "$($Using:sds.folderPath)\$Using:File" -Delimiter $Using:sds.delimiter -Encoding UTF8 | Where-Object { $_.$Using:Header -eq $Using:Value } }
 }
 
+Function Get-SdsEnrollmentData {
+    param(
+        [Parameter(Mandatory = $True)]
+        $Person
+    )
+
+    return $Person | ForEach-Object {
+        $personSchool = $_."School SIS ID"
+        $obj = @{
+            person = @{
+                samAccountName = $_."SIS ID"
+                schoolId = $_."School SIS ID"
+                userPrincipalName = $_.Username
+                type = $Type
+            }
+        }
+        # get enrollment
+        if ($Type -eq "Student") {
+            $enrollments = Get-SdsData -File "StudentEnrollment.csv" -Header $enrollmentsHeader -Value $_."SIS ID" | Where-Object { $_."Section SIS ID" -match $personSchool }
+        }
+        elseif ($Type -eq "Teacher") {
+            $enrollments = Get-SdsData -File "TeacherRoster.csv" -Header $enrollmentsHeader -Value $_."SIS ID" | Where-Object { $_."Section SIS ID" -match $personSchool }
+        }
+        
+        if (!$enrollments) {
+            Write-Warning -Message "$($_."SIS ID") has no enrollments !" -WarningAction SilentlyContinue
+            $obj.Add("enrollments", @())
+        }
+        else {
+            $obj.Add("enrollments", $enrollments)
+        }
+        
+        return $obj
+    }
+}
+
 # import environment variables
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 . $envPath
@@ -54,43 +90,34 @@ $person = Get-SdsData -File $personFile -Header $personHeader -Value $personValu
 if (!$person) {
     Write-Error -Message "Person not found in $personFile !" -ErrorAction Stop
 }
-
-# get enrollment
-if ($Type -eq "Student") {
-    $enrollments = Get-SdsData -File "StudentEnrollment.csv" -Header $enrollmentsHeader -Value $person."SIS ID"
-}
-elseif ($Type -eq "Teacher") {
-    $enrollments = Get-SdsData -File "TeacherRoster.csv" -Header $enrollmentsHeader -Value $person."SIS ID"
-}
-if (!$enrollments) {
-    Write-Error -Message "Person has no enrollments !" -ErrorAction Stop
+elseif (!$person.Count) {
+    $person = @($person)
 }
 
-# return json with section enrollments
-return @{
-    person = @{
-        samAccountName = $person."SIS ID"
-        schoolId = $person."School SIS ID"
-        userPrincipalName = $person.Username
-    }
-    enrollments = $enrollments | ForEach-Object {
-        # get section
-        $section = Get-SdsData -File "Section.csv" -Header "SIS ID" -Value $_."Section SIS ID"
-        if (!$section) {
-            Write-Warning "Section not found for $($_."Section SIS ID")" -WarningAction SilentlyContinue
-            return @{
-                sectionId = $_."Section SIS ID"
-                schoolId = ""
-                sectionName = ""
-                sectionCourseDescription = ""
+# return persons
+return $person | ForEach-Object {
+    $result = Get-SdsEnrollmentData -Person $_
+    return @{
+        person = $result.person
+        enrollments = $result.enrollments | ForEach-Object {
+            # get section
+            $section = Get-SdsData -File "Section.csv" -Header "SIS ID" -Value $_."Section SIS ID"
+            if (!$section) {
+                Write-Warning "Section not found for $($_."Section SIS ID")" -WarningAction SilentlyContinue
+                return @{
+                    sectionId = $_."Section SIS ID"
+                    schoolId = ""
+                    sectionName = ""
+                    sectionCourseDescription = ""
+                }
             }
-        }
-        else {
-            return @{
-                sectionId = $_."Section SIS ID"
-                schoolId = $section."School SIS ID"
-                sectionName = $section."Section Name"
-                sectionCourseDescription = $section."Course Description"
+            else {
+                return @{
+                    sectionId = $_."Section SIS ID"
+                    schoolId = $section."School SIS ID"
+                    sectionName = $section."Section Name"
+                    sectionCourseDescription = $section."Course Description"
+                }
             }
         }
     }
