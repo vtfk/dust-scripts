@@ -28,6 +28,12 @@ $feide = @{
     server = "<FQDN-to-feide-server>"
     searchBase = "OU=People,OU=Feide,DC=<feide-ou-name>,DC=no"
 }
+
+$sds = @{
+    server = "<FQDN-to-sds-server>"
+    folderPath = "<local-folder-path-to-sds-csv-files>"
+    delimiter = ","
+}
 ```
 
 ## Database
