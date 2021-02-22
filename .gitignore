@@ -8,7 +8,11 @@ project.lock.json
 /Packages/
 *.nuget.props
 
+# ignore environment files
 envs.ps1
+.env
+
+node_modules
 
 # dotnet cli install/uninstall scripts
 dotnet-install.ps1
