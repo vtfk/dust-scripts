@@ -10,8 +10,13 @@ if (!$EmployeeNumber) {
     Write-Error -Message "Missing required parameter: 'EmployeeNumber'" -ErrorAction Stop
 }
 
+$currentLocation = Get-Location | Select-Object -ExpandProperty Path
+$nodePath = Join-Path -Path $PSScriptRoot -ChildPath "node"
+
 try {
-    $pifu = Invoke-Expression -Command "node .\node\get-dust-pifu.js $EmployeeNumber"
+    Set-Location -Path $nodePath
+    $pifu = Invoke-Expression -Command "node .\get-dust-pifu.js $EmployeeNumber"
+    Set-Location -Path $currentLocation
 }
 catch {
     Write-Error -Message "Failed to retrieve PIFU file" -ErrorAction Stop
