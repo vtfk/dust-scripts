@@ -23,7 +23,7 @@ catch {
 }
 
 if (!$EmployeeNumber -and (!$FirstName -or !$LastName)) {
-    Write-Error "Parameter 'EmployeeNumber' OR 'FirstName' and 'LastName' must be filled out!" -ErrorAction Stop
+    Write-Error "Missing required parameter 'EmployeeNumber' OR 'FirstName' and 'LastName' !" -ErrorAction Stop
 }
 
 <##

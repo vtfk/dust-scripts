@@ -7,7 +7,7 @@ param(
 )
 
 if (!$SamAccountName) {
-    Write-Error -Message "Missing required parameter: 'SamAccountName'" -ErrorAction Stop
+    Write-Error -Message "Missing required parameter: 'SamAccountName' !" -ErrorAction Stop
 }
 
 # default properties that must be present!

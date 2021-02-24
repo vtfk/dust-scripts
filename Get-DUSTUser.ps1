@@ -35,7 +35,7 @@ elseif ($DisplayName) {
     $filter = "DisplayName -like '$DisplayName'"
 }
 else {
-    Write-Error -Message "One of these parameters must be present: 'SamAccountName' , 'UserPrincipalName' , 'EmployeeNumber' , 'DisplayName' !" -ErrorAction Stop
+    Write-Error -Message "Missing required parameter: 'SamAccountName' or 'UserPrincipalName' or 'EmployeeNumber' or 'DisplayName' !" -ErrorAction Stop
 }
 
 # default properties that must be present!

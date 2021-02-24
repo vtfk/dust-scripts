@@ -1,4 +1,4 @@
-﻿param(
+param(
     [Parameter(ParameterSetName = "SAM")]
     [string]$SamAccountName,
 
@@ -11,7 +11,7 @@
 )
 
 if (!$Type) {
-    Write-Error -Message "Missing required parameter: 'Type'" -ErrorAction Stop
+    Write-Error -Message "Missing required parameter: 'Type' !" -ErrorAction Stop
 }
 
 Function Get-SdsData {
@@ -87,7 +87,7 @@ elseif ($UserPrincipalName) {
     $personValue = $UserPrincipalName
 }
 else {
-    Write-Error -Message "One of these parameters must be present: 'SamAccountName' , 'UserPrincipalName' !" -ErrorAction Stop
+    Write-Error -Message "Missing required parameter: 'SamAccountName' or 'UserPrincipalName' !" -ErrorAction Stop
 }
 
 # get person
