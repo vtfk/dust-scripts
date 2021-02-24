@@ -22,9 +22,4 @@ catch {
     Write-Error -Message "Failed to retrieve PIFU file: $_" -ErrorAction Stop
 }
 
-if ($pifu -like "ERROR:*") {
-    $pifu = $pifu.Replace("ERROR: ", "")
-    Write-Error -Message $pifu -ErrorAction Stop
-}
-
 $pifu

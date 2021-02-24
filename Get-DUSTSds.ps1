@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(ParameterSetName = "SAM")]
     [string]$SamAccountName,
 
@@ -93,7 +93,8 @@ else {
 # get person
 $person = Get-SdsData -File $personFile -Header $personHeader -Value $personValue
 if (!$person) {
-    Write-Error -Message "Person not found in $personFile !" -ErrorAction Stop
+    # Person not found in $personFile
+    return "[]"
 }
 elseif (!$person.Count) {
     $person = @($person)

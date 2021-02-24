@@ -21,7 +21,8 @@ const memberships = pifu.enterprise.membership.filter(membership => membership &
   })
 
 if (!person && (!memberships || memberships.length === 0)) {
-  console.log('ERROR: No person object and no memberships found for this employee')
+  // ERROR: Person object and memberships not found
+  console.log("[]")
   process.exit(-1)
 }
 
