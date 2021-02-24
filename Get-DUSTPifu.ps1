@@ -15,11 +15,11 @@ $nodePath = Join-Path -Path $PSScriptRoot -ChildPath "node"
 
 try {
     Set-Location -Path $nodePath
-    $pifu = Invoke-Expression -Command "node .\get-dust-pifu.js $EmployeeNumber"
+    $pifu = Invoke-Expression -Command "node .\get-dust-pifu.js $EmployeeNumber" -ErrorAction Stop
     Set-Location -Path $currentLocation
 }
 catch {
-    Write-Error -Message "Failed to retrieve PIFU file" -ErrorAction Stop
+    Write-Error -Message "Failed to retrieve PIFU file: $_" -ErrorAction Stop
 }
 
 if ($pifu -like "ERROR:*") {
