@@ -7,7 +7,7 @@
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 if (!$EmployeeNumber) {
-    Write-Error -Message "Missing required parameter: 'EmployeeNumber'" -ErrorAction Stop
+    Write-Error -Message "Missing required parameter: 'EmployeeNumber' !" -ErrorAction Stop
 }
 
 $currentLocation = Get-Location | Select-Object -ExpandProperty Path
