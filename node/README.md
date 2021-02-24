@@ -1,4 +1,4 @@
-# dust-script / node
+# dust-scripts / node
 
 Node scripts used by PowerShell for DUST
 
