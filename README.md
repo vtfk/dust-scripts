@@ -34,6 +34,10 @@ $sds = @{
     folderPath = "<local-folder-path-to-sds-csv-files>"
     delimiter = ","
 }
+
+$vigoBas = @{
+  autoRun = "<unc-path-autorun-folder-for-post-scripts-from-vigo-bas>"
+}
 ```
 
 ## Database
