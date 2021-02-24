@@ -1,6 +1,4 @@
-﻿# skrives om til å compare før insert / delete
-
-# import environment variables
+﻿# import environment variables
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 . $envPath
 
@@ -8,13 +6,15 @@ if (!$db.connectionString -or !$db.dbName -or !$db.dbCollection) {
     Write-Error "RTFM (DUST!)" -ErrorAction Stop
 }
 
+$adUsers = @()
+
 # get ad users from AUTO USERS
-$loginUsers = D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "login.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,extensionAttribute6 -OnlyAutoUsers
-$skoleUsers = D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,department -OnlyAutoUsers
+$adUsers += D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "login.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,extensionAttribute4,extensionAttribute6,physicalDeliveryOfficeName -OnlyAutoUsers | Select-Object userPrincipalName, samAccountName, givenName, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"login"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, enabled, @{N="ou"; E={"AUTO USERS"}}, @{N="departmentShort"; E={$_.extensionAttribute6}}, @{N="departmentAdditional"; E={$_.extensionAttribute4}}, @{N="office"; E={$_.physicalDeliveryOfficeName}}
+$adUsers += D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,department,company -OnlyAutoUsers | Select-Object userPrincipalName, samAccountName, givenName, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"skole"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, enabled, @{N="ou"; E={"AUTO USERS"}}, @{N="departmentShort"; E={$_.department}}, @{N="office"; E={$_.company}}
 
 # get ad users from AUTO DISABLED USERS
-$disabledLoginUsers = D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "login.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,extensionAttribute6 -OnlyDisabledAutoUsers
-$disabledSkoleUsers = D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,department -OnlyDisabledAutoUsers
+$adUsers += D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "login.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,extensionAttribute4,extensionAttribute6,physicalDeliveryOfficeName -OnlyDisabledAutoUsers | Select-Object userPrincipalName, samAccountName, givenName, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"login"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, enabled, @{N="ou"; E={"AUTO DISABLED USERS"}}, @{N="departmentShort"; E={$_.extensionAttribute6}}, @{N="departmentAdditional"; E={$_.extensionAttribute4}}, @{N="office"; E={$_.physicalDeliveryOfficeName}}
+$adUsers += D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Properties givenName,sn,displayName,employeeNumber,department,company -OnlyDisabledAutoUsers | Select-Object userPrincipalName, samAccountName, givenName, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"skole"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, enabled, @{N="ou"; E={"AUTO DISABLED USERS"}}, @{N="departmentShort"; E={$_.department}}, @{N="office"; E={$_.company}}
 
 # connect to MONGO
 Connect-Mdbc -ConnectionString $db.connectionString -DatabaseName $db.dbName -CollectionName $db.dbCollection
@@ -23,9 +23,4 @@ Connect-Mdbc -ConnectionString $db.connectionString -DatabaseName $db.dbName -Co
 Remove-MdbcData -Many -Filter "{}"
 
 # add all users to MONGO
-$loginUsers | Select-Object userPrincipalName, samAccountName, givenName, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"login"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, @{N="departmentShort"; E={$_.extensionAttribute6}} | Add-MdbcData
-$skoleUsers | Select-Object userPrincipalName, samAccountName, givenName, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"skole"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, @{N="departmentShort"; E={$_.department}} | Add-MdbcData
-
-# add all disabled users to MONGO
-$disabledLoginUsers | Select-Object userPrincipalName, samAccountName, givenName, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"login"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, @{N="departmentShort"; E={$_.extensionAttribute6}} | Add-MdbcData
-$disabledSkoleUsers | Select-Object userPrincipalName, samAccountName, givenName, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"skole"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, @{N="departmentShort"; E={$_.department}} | Add-MdbcData
+$adUsers | Add-MdbcData
