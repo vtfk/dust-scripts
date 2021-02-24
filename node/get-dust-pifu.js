@@ -1,13 +1,7 @@
 require('dotenv').config()
-const args = process.argv.slice(2)
-
-if (args.length <= 0) {
-  console.log('ERROR: Missing EmployeeNumber')
-  process.exit(-1)
-}
-
 const pifu = require(process.env.PIFU_FILE_PATH)
-const employeeNumber = args[0]
+
+const employeeNumber = process.argv.slice(2)[0]
 
 // find person
 const person = pifu.enterprise.person.find(p => p.sourcedid.id === Number.parseInt(employeeNumber))
