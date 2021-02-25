@@ -1,5 +1,5 @@
 ﻿# import environment variables
-$envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
+$envPath = Join-Path -Path $PSScriptRoot -ChildPath "..\envs.ps1"
 . $envPath
 
 if (!$db.connectionString -or !$db.dbName -or !$db.dbCollection) {
