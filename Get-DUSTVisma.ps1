@@ -3,10 +3,10 @@ param(
     [string]$EmployeeNumber,
 
     [Parameter(ParameterSetName = "Name")]
-    [string]$FirstName,
+    [string]$GivenName,
 
     [Parameter(ParameterSetName = "Name")]
-    [string]$LastName
+    [string]$SurName
 )
 
 # make sure Newtonsoft.Json.JsonConvert is accesible, otherwise import it from System32. If not found, script will fail
@@ -22,8 +22,8 @@ catch {
     }
 }
 
-if (!$EmployeeNumber -and (!$FirstName -or !$LastName)) {
-    Write-Error "Missing required parameter 'EmployeeNumber' OR 'FirstName' and 'LastName' !" -ErrorAction Stop
+if (!$EmployeeNumber -and (!$GivenName -or !$SurName)) {
+    Write-Error "Missing required parameter 'EmployeeNumber' OR 'GivenName' and 'SurName' !" -ErrorAction Stop
 }
 
 <##
@@ -78,7 +78,7 @@ if ($EmployeeNumber) {
     $json = [Newtonsoft.Json.JsonConvert]::SerializeXmlNode($result) | ConvertFrom-Json
 }
 else {
-    [XML]$result = Invoke-RestMethod -Uri "$($visma.baseUri)/name/firstname/$FirstName/lastname/$LastName" -Credential $credential -Method Get
+    [XML]$result = Invoke-RestMethod -Uri "$($visma.baseUri)/name/firstname/$GivenName/lastname/$SurName" -Credential $credential -Method Get
     $json = [Newtonsoft.Json.JsonConvert]::SerializeXmlNode($result.personsXML) | ConvertFrom-Json | Select-Object -ExpandProperty personsXML
 }
 
