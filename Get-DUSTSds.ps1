@@ -42,24 +42,26 @@ Function Get-SdsEnrollmentData {
 
     return $Person | ForEach-Object {
         $personSchool = $_."School SIS ID"
+        $schoolIdVariants = $schools.$personSchool.variants
         $obj = @{
             person = @{
                 samAccountName = $_."SIS ID"
-                schoolId = $_."School SIS ID"
+                schoolId = $personSchool
+                schoolIdVariants = $schoolIdVariants
                 userPrincipalName = $_.Username
                 type = $Type
             }
         }
         # get enrollment
         if ($Type -eq "Student") {
-            $enrollments = Get-SdsData -File "StudentEnrollment.csv" -Header $enrollmentsHeader -Value $_."SIS ID" | Where-Object { $_."Section SIS ID" -match $personSchool }
+            $enrollments = Get-SdsData -File "StudentEnrollment.csv" -Header $enrollmentsHeader -Value $_."SIS ID" | Where-Object { $_."Section SIS ID" -match ($schoolIdVariants -join "|") }
         }
         elseif ($Type -eq "Teacher") {
-            $enrollments = Get-SdsData -File "TeacherRoster.csv" -Header $enrollmentsHeader -Value $_."SIS ID" | Where-Object { $_."Section SIS ID" -match $personSchool }
+            $enrollments = Get-SdsData -File "TeacherRoster.csv" -Header $enrollmentsHeader -Value $_."SIS ID" | Where-Object { $_."Section SIS ID" -match ($schoolIdVariants -join "|") }
         }
         
         if (!$enrollments) {
-            Write-Warning -Message "$($_."SIS ID") has no enrollments !" -WarningAction SilentlyContinue
+            Write-Warning -Message "$($_."SIS ID") has no enrollments on $personSchool !"
             $obj.Add("enrollments", @())
         }
         else {
@@ -88,6 +90,114 @@ elseif ($UserPrincipalName) {
 }
 else {
     Write-Error -Message "Missing required parameter: 'SamAccountName' or 'UserPrincipalName' !" -ErrorAction Stop
+}
+
+# translation between old and new school codes
+$schools = @{
+    SVS = @{
+        name = "Sande videregående skole"
+        variants = @("SVS")
+    }
+    HSVS = @{
+        name = "Holmestrand videregående skole"
+        variants = @("HSVS", "HLVS")
+    }
+    HVS = @{
+         name = "Horten videregående skole"
+         variants = @("HVS")
+    }
+    RVS = @{
+         name = "Re videregående skole"
+         variants = @("RVS")
+    }
+    GVS = @{
+         name = "Greveskogen videregående skole"
+         variants = @("GVS", "GRVS")
+    }
+    KBV = @{
+         name = "Kompetansebyggeren"
+         variants = @("KBV")
+    }
+    FVS = @{
+         name = "Færder videregående skole"
+         variants = @("FVS", "FRVS")
+    }
+    NVS = @{
+         name = "Nøtterøy videregående skole"
+         variants = @("NVS")
+    }
+    MVS = @{
+         name = "Melsom videregående skole"
+         variants = @("MVS")
+    }
+    SFVS = @{
+         name = "Sandefjord videregående skole"
+         variants = @("SFVS", "SVGS")
+    }
+    THVS = @{
+         name = "Thor Heyerdahl videregående skole"
+         variants = @("THVS")
+    }
+    BAMVS = @{
+         name = "Bamble videregående skole"
+         variants = @("BAMVS", "CROVS")
+    }
+    BOEVS = @{
+         name = "Bø videregående skole"
+         variants = @("BOEVS")
+    }
+    KLOVS = @{
+         name = "Hjalmar Johansen videregående skole"
+         variants = @("KLOVS")
+    }
+    KRAVS = @{
+         name = "Kragerø videregående skole"
+         variants = @("KRAVS")
+    }
+    NOMVS = @{
+         name = "Nome videregående skole"
+         variants = @("NOMVS", "LUNVS", "SOEVS")
+    }
+    NOTVS = @{
+         name = "Notodden videregående skole"
+         variants = @("NOTVS")
+    }
+    PORVS = @{
+         name = "Porsgrunn videregående skole"
+         variants = @("PORVS")
+    }
+    RJUVS = @{
+         name = "Rjukan videregående skole"
+         variants = @("RJUVS")
+    }
+    SKIVS = @{
+         name = "Skien videregående skole"
+         variants = @("SKIVS")
+    }
+    SKOVS = @{
+         name = "Skogmo videregående skole"
+         variants = @("SKOVS")
+    }
+    DALVS = @{
+         name = "Vest-Telemark videregående skole"
+         variants = @("DALVS", "SELVS")
+    }
+    TELVS = @{
+         name = "Telemark fagskole"
+         variants = @("TELVS")
+    }
+    FIV = @{
+         name = "Fagskolen i Vestfold"
+         variants = @("FIV")
+    }
+    NETT = @{
+         name = "Nettskolen Vestfold"
+         variants = @("HVS-NETT")
+    }
+    "OF-SMI" = @{
+         name = "Skolen for sosiale og medisinske institusjoner"
+         variants = @("MVS-SMIH")
+    }
 }
 
 # get person
