@@ -211,7 +211,7 @@ elseif (!$person.Count) {
 }
 
 # return persons
-return $person | ForEach-Object {
+$output = $person | ForEach-Object {
     $result = Get-SdsEnrollmentData -Person $_
     return @{
         person = $result.person
@@ -237,4 +237,19 @@ return $person | ForEach-Object {
             }
         }
     }
-} | ConvertTo-Json -Depth 20
+}
+
+# workaround to force only one object to also be wrapped in an array
+if ($output.GetType().Name -eq "Hashtable") {
+    $output = @($output)
+}
+
+# workaround to force only one object to also be wrapped in an array
+$output | ForEach-Object {
+    if ($_.enrollments.GetType().Name -eq "Hashtable") {
+        $_.enrollments = @($_.enrollments)
+    }
+}
+
+# $output can not be piped to ConvertTo-Json since there's a bug in the cmdlet which then will convert arrays with one item into an object instead
+return ConvertTo-Json -InputObject $output -Depth 20
