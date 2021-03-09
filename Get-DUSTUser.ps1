@@ -12,6 +12,7 @@ param(
     [string]$DisplayName,
 
     [Parameter()]
+    [ValidateSet("login", "skole")]
     [string]$Domain,
 
     [Parameter()]
