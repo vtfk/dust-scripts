@@ -16,7 +16,7 @@ param(
     [string]$Domain,
 
     [Parameter()]
-    [string[]]$Properties = @('givenName','sn','displayName','employeeNumber','extensionAttribute6','company','department', 'pwdLastSet')
+    [string[]]$Properties = @('')
 )
 
 if (!$Domain) {
@@ -45,6 +45,9 @@ else {
         $Properties += $_
     }
 }
+
+# remove the empty item (workaround to be able to use .ToLower() on an array)
+$Properties = $Properties | Where-Object { ![string]::IsNullOrEmpty($_) }
 
 # import environment variables
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
