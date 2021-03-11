@@ -12,7 +12,7 @@ param(
     [string]$DisplayName,
 
     [Parameter()]
-    [string[]]$Properties = @('displayName', 'distinguishedName', 'enabled', 'passwordLastSet', 'lastLogonDate', 'whenChanged', 'whenCreated', 'eduPersonAffiliation', 'eduPersonEntitlement', 'eduPersonOrgUnitDN', 'norEduPersonAuthnMethod', 'norEduPersonNIN')
+    [string[]]$Properties = @('')
 )
 
 if ($SamAccountName) {
@@ -32,11 +32,14 @@ else {
 }
 
 # default properties that must be present!
-@('distinguishedName', 'enabled', 'givenName', 'name', 'surname', 'mail', 'displayName', 'norEduPersonNIN', 'passwordLastSet', 'whenChanged', 'whenCreated', 'eduPersonAffiliation', 'eduPersonEntitlement', 'eduPersonOrgUnitDN', 'norEduPersonAuthnMethod', 'norEduPersonNIN') | ForEach-Object {
+@('distinguishedName', 'enabled', 'givenName', 'name', 'surname', 'mail', 'displayName', 'norEduPersonNIN', 'passwordLastSet', 'lastLogonDate', 'whenChanged', 'whenCreated', 'eduPersonAffiliation', 'eduPersonEntitlement', 'eduPersonOrgUnitDN', 'norEduPersonAuthnMethod', 'norEduPersonNIN') | ForEach-Object {
     if (!$Properties.ToLower().Contains($_.ToLower())) {
         $Properties += $_
     }
 }
+
+# remove the empty item (workaround to be able to use .ToLower() on an array)
+$Properties = $Properties | Where-Object { ![string]::IsNullOrEmpty($_) }
 
 # import environment variables
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
