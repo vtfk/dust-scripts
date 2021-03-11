@@ -40,7 +40,7 @@ else {
 }
 
 # default properties that must be present!
-@('distinguishedName', 'enabled', 'givenName', 'name', 'samAccountName', 'sn', 'userPrincipalName', 'displayName', 'employeeNumber', 'extensionAttribute6', 'company', 'department', 'pwdLastSet', 'whenChanged', 'whenCreated', 'lockedOut') | ForEach-Object {
+@('distinguishedName', 'enabled', 'givenName', 'name', 'samAccountName', 'sn', 'userPrincipalName', 'displayName', 'employeeNumber', 'extensionAttribute6', 'company', 'department', 'pwdLastSet', 'whenChanged', 'whenCreated', 'lockedOut', 'mail') | ForEach-Object {
     if (!$Properties.ToLower().Contains($_.ToLower())) {
         $Properties += $_
     }
