@@ -32,7 +32,7 @@ else {
 }
 
 # default properties that must be present!
-@('distinguishedName', 'enabled', 'givenName', 'name', 'surname', 'mail', 'displayName', 'norEduPersonNIN', 'passwordLastSet', 'lastLogonDate', 'whenChanged', 'whenCreated', 'eduPersonAffiliation', 'eduPersonEntitlement', 'eduPersonOrgUnitDN', 'norEduPersonAuthnMethod', 'norEduPersonNIN') | ForEach-Object {
+@('distinguishedName', 'enabled', 'givenName', 'name', 'surname', 'mail', 'displayName', 'norEduPersonNIN', 'passwordLastSet', 'lastLogonDate', 'whenChanged', 'whenCreated', 'eduPersonAffiliation', 'eduPersonEntitlement', 'eduPersonOrgUnitDN', 'norEduPersonAuthnMethod', 'norEduPersonNIN', 'eduPersonOrgDN', 'uid', 'eduPersonPrincipalName', 'lockedOut') | ForEach-Object {
     if (!$Properties.ToLower().Contains($_.ToLower())) {
         $Properties += $_
     }
