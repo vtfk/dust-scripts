@@ -76,14 +76,18 @@ $credential = New-Object pscredential -ArgumentList $visma.username,(ConvertTo-S
 if ($EmployeeNumber) {
     [XML]$result = Invoke-RestMethod -Uri "$($visma.baseUri)/ssn/$EmployeeNumber" -Credential $credential -Method Get
     $json = [Newtonsoft.Json.JsonConvert]::SerializeXmlNode($result) | ConvertFrom-Json
+    
+    if ([int]$json.person."@personIdHRM" -le 0) {
+        return "[]"
+    }
 }
 else {
     [XML]$result = Invoke-RestMethod -Uri "$($visma.baseUri)/name/firstname/$GivenName/lastname/$SurName" -Credential $credential -Method Get
     $json = [Newtonsoft.Json.JsonConvert]::SerializeXmlNode($result.personsXML) | ConvertFrom-Json | Select-Object -ExpandProperty personsXML
-}
-
-if (!$json.person) {
-    return "[]"
+    
+    if (!$json.person) {
+        return "[]"
+    }
 }
 
 $json.person | Start-SanitizeDataData | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
