@@ -40,6 +40,8 @@ Function Start-SanitizeDataData
     process {
         $CustomObj.dependents = $null
         $CustomObj.employments.employment.bankDetails = $null
+        $CustomObj.employments.employment.paymentInAdvance = $null
+        $CustomObj.employments.employment.pension = $null
         
         if ($CustomObj.employments.employment.positions.position.Count) {
             $CustomObj.employments.employment.positions.position | ForEach-Object {
@@ -60,6 +62,8 @@ Function Start-SanitizeDataData
                 $CustomObj.employments.employment.positions.position.salaryInfo = $null
             }
         }
+        
+        $CustomObj.employments.employment.statistics = $null
         $CustomObj.employments.employment.taxDetails = $null
         $CustomObj.employments.employment.union = $null
 
