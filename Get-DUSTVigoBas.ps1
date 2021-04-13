@@ -7,7 +7,7 @@
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 . $envPath
 
-$lastRunDate = Get-ChildItem -Path $vigoBas.autoRun -Directory | Select-Object -First 1 | Select-Object @{N="lastWriteTime"; E={$_.LastWriteTime}} | .\Fix-Properties.ps1 | ConvertTo-Json
+$lastRunDate = Get-ChildItem -Path $vigoBas.autoRun -Directory | Select-Object -First 1 | Select-Object @{N="lastRunTime"; E={$_.LastWriteTime}} | .\Fix-Properties.ps1 | ConvertTo-Json
 
 if (!$lastRunDate) {
     return "[]"
