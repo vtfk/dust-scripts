@@ -67,7 +67,9 @@ Function Start-SanitizeDataData
         $CustomObj.employments.employment.taxDetails = $null
         $CustomObj.employments.employment.union = $null
 
-        $CustomObj.maritalStatus = $null
+        if ($CustomObj.maritalStatus) {
+            $CustomObj.maritalStatus = $null
+        }
         $CustomObj.socialSecurityOffice = $null
 
         return $CustomObj
