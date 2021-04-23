@@ -70,7 +70,9 @@ Function Start-SanitizeDataData
         if ($CustomObj.maritalStatus) {
             $CustomObj.maritalStatus = $null
         }
-        $CustomObj.socialSecurityOffice = $null
+        if ($CustomObj.socialSecurityOffice) {
+            $CustomObj.socialSecurityOffice = $null
+        }
 
         return $CustomObj
     }
