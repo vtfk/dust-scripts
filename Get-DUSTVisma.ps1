@@ -26,57 +26,9 @@ if (!$EmployeeNumber -and (!$GivenName -or !$SurName)) {
     Write-Error "Missing required parameter 'EmployeeNumber' OR 'GivenName' and 'SurName' !" -ErrorAction Stop
 }
 
-<##
-    .DESCRIPTION
-        This will remove sections that should not be viewed by everyone
-#>
-Function Start-SanitizeDataData
-{
-    param(
-        [Parameter(ValueFromPipeline)]
-        $CustomObj
-    )
-
-    process {
-        $CustomObj.dependents = $null
-        $CustomObj.employments.employment.bankDetails = $null
-        $CustomObj.employments.employment.paymentInAdvance = $null
-        $CustomObj.employments.employment.pension = $null
-        
-        if ($CustomObj.employments.employment.positions.position.Count) {
-            $CustomObj.employments.employment.positions.position | ForEach-Object {
-                if ($_.fixedTransactions) {
-                    $_.fixedTransactions = $null
-                }
-                if ($_.salaryInfo) {
-                    $_.salaryInfo = $null
-                }
-            }
-        }
-        else 
-        {
-            if ($CustomObj.employments.employment.positions.position.fixedTransactions) {
-                $CustomObj.employments.employment.positions.position.fixedTransactions = $null
-            }
-            if ($CustomObj.employments.employment.positions.position.salaryInfo) {
-                $CustomObj.employments.employment.positions.position.salaryInfo = $null
-            }
-        }
-        
-        $CustomObj.employments.employment.statistics = $null
-        $CustomObj.employments.employment.taxDetails = $null
-        $CustomObj.employments.employment.union = $null
-
-        if ($CustomObj.maritalStatus) {
-            $CustomObj.maritalStatus = $null
-        }
-        if ($CustomObj.socialSecurityOffice) {
-            $CustomObj.socialSecurityOffice = $null
-        }
-
-        return $CustomObj
-    }
-}
+# import visma functions
+$vismaLibs = Join-Path -Path $PSScriptRoot -ChildPath "lib\visma" | Get-ChildItem -Filter "*.ps1"
+$vismaLibs | ForEach-Object { . $_.FullName }
 
 # import environment variables
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
@@ -101,4 +53,4 @@ else {
     }
 }
 
-$json.person | Start-SanitizeDataData | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
+$json.person | Start-SanitizeVismaData | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
