@@ -10,6 +10,6 @@
   "author": "Rune Moskvil Lyngås <rune.moskvil.lyngaas@vtfk.no>",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^9.0.0"
   }
 }
