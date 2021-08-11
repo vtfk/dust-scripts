@@ -4,14 +4,10 @@ Scripts for DUST
 
 ## Setup
 
-Create a `envs.ps1` file with this content:
-```PowerShell
-$db = @{
-  connectionString = "mongodb+srv://<username>:<password>@<server>?retryWrites=true&w=majority"
-  dbName = "databasename"
-  dbCollection = "collectionname"
-}
+### envs.ps1
 
+Create a `envs.ps1` file in root folder with this content:
+```PowerShell
 $visma = @{
   baseUri = "<visma-hrm-address>"
   username = "<username>"
@@ -38,6 +34,15 @@ $sds = @{
 $vigoBas = @{
   autoRun = "<unc-path-autorun-folder-for-post-scripts-from-vigo-bas>"
 }
+```
+
+### .env
+
+Create a `.env` file in node root folder with this content:
+```bash
+MONGODB_CONNECTION=mongodb+srv://<username>:<password>@<server>?retryWrites=true&w=majority
+MONGODB_COLLECTION=collectionname
+MONGODB_NAME=databasename
 ```
 
 ## Database
