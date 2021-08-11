@@ -36,15 +36,6 @@ $vigoBas = @{
 }
 ```
 
-### .env
-
-Create a `.env` file in node root folder with this content:
-```bash
-MONGODB_CONNECTION=mongodb+srv://<username>:<password>@<server>?retryWrites=true&w=majority
-MONGODB_COLLECTION=collectionname
-MONGODB_NAME=databasename
-```
-
 ## Database
 
 - Create database in MONGO
