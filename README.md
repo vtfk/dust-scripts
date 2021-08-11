@@ -4,14 +4,10 @@ Scripts for DUST
 
 ## Setup
 
-Create a `envs.ps1` file with this content:
-```PowerShell
-$db = @{
-  connectionString = "mongodb+srv://<username>:<password>@<server>?retryWrites=true&w=majority"
-  dbName = "databasename"
-  dbCollection = "collectionname"
-}
+### envs.ps1
 
+Create a `envs.ps1` file in root folder with this content:
+```PowerShell
 $visma = @{
   baseUri = "<visma-hrm-address>"
   username = "<username>"
