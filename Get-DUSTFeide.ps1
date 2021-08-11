@@ -32,7 +32,7 @@ else {
 }
 
 # default properties that must be present!
-@('distinguishedName', 'enabled', 'givenName', 'name', 'surname', 'mail', 'displayName', 'norEduPersonNIN', 'passwordLastSet', 'lastLogonDate', 'whenChanged', 'whenCreated', 'eduPersonAffiliation', 'eduPersonEntitlement', 'eduPersonOrgUnitDN', 'norEduPersonAuthnMethod', 'norEduPersonNIN', 'eduPersonOrgDN', 'uid', 'eduPersonPrincipalName', 'lockedOut') | ForEach-Object {
+@('distinguishedName', 'givenName', 'name', 'sn', 'mail', 'displayName', 'norEduPersonNIN', 'whenChanged', 'whenCreated', 'eduPersonAffiliation', 'eduPersonEntitlement', 'eduPersonOrgUnitDN', 'norEduPersonAuthnMethod', 'norEduPersonNIN', 'eduPersonOrgDN', 'uid', 'eduPersonPrincipalName') | ForEach-Object {
     if (!$Properties.ToLower().Contains($_.ToLower())) {
         $Properties += $_
     }
@@ -45,7 +45,7 @@ $Properties = $Properties | Where-Object { ![string]::IsNullOrEmpty($_) }
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 . $envPath
 
-$user = Get-ADUser -Filter $filter -Server $feide.server -SearchBase $feide.searchBase -Properties $Properties | Select-Object ($Properties | Sort-Object)
+$user = Get-ADObject -Filter $filter -Server $feide.server -SearchBase $feide.searchBase -Properties $Properties | Select-Object ($Properties | Sort-Object)
 if(!$user) {
     # No user was found! :(
     return "[]"
