@@ -46,7 +46,7 @@ Function Get-SdsEnrollmentData {
         $personSchool = $_."School SIS ID"
         $schoolIdVariants = $schools.$personSchool.variants
         $obj = @{
-            person = @{
+            person = [ordered]@{
                 samAccountName = $_."SIS ID"
                 schoolId = $personSchool
                 schoolIdVariants = $schoolIdVariants
@@ -231,7 +231,7 @@ $output = $person | ForEach-Object {
             $section = Get-SdsData -File "Section.csv" -Header "SIS ID" -Value $_."Section SIS ID"
             if (!$section) {
                 Write-Warning "Section not found for $($_."Section SIS ID")" -WarningAction SilentlyContinue
-                return @{
+                return [ordered]@{
                     sectionId = $_."Section SIS ID"
                     schoolId = ""
                     sectionName = ""
@@ -239,7 +239,7 @@ $output = $person | ForEach-Object {
                 }
             }
             else {
-                return @{
+                return [ordered]@{
                     sectionId = $_."Section SIS ID"
                     schoolId = $section."School SIS ID"
                     sectionName = $section."Section Name"
