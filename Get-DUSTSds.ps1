@@ -258,7 +258,7 @@ if ($output.GetType().Name -eq "Hashtable") {
 
 # workaround to force only one object to also be wrapped in an array
 $output | ForEach-Object {
-    if ($_.enrollments.GetType().Name -eq "Hashtable") {
+    if ($_.enrollments -and $_.enrollments.GetType().Name -eq "Hashtable") {
         $_.enrollments = @($_.enrollments)
     }
 }
