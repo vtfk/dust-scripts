@@ -101,95 +101,95 @@ else {
 
 # translation between old and new school codes
 $schools = @{
-    SVS = @{
+    "OF-SANV" = @{
         name = "Sande videregående skole"
-        variants = @("SVS")
+        variants = @("SVS", "OF-SANV", "SANV")
     }
-    HSVS = @{
+    "OF-HOLV" = @{
         name = "Holmestrand videregående skole"
-        variants = @("HSVS", "HLVS")
+        variants = @("HSVS", "HLVS", "OF-HOLV", "HOLV")
     }
-    HVS = @{
+    "OF-HORV" = @{
          name = "Horten videregående skole"
-         variants = @("HVS")
+         variants = @("HVS", "OF-HORV", "HORV")
     }
-    RVS = @{
+    "OF-REV" = @{
          name = "Re videregående skole"
-         variants = @("RVS")
+         variants = @("RVS", "OF-REV", "REV")
     }
-    GVS = @{
+    "OF-GRV" = @{
          name = "Greveskogen videregående skole"
-         variants = @("GVS", "GRVS")
+         variants = @("GVS", "GRVS", "OF-GRV", "GRV")
     }
-    KBV = @{
+    "OF-KB" = @{
          name = "Kompetansebyggeren"
-         variants = @("KBV")
+         variants = @("KBV", "OF-KB", "KB")
     }
-    FVS = @{
+    "OF-FRV" = @{
          name = "Færder videregående skole"
-         variants = @("FVS", "FRVS")
+         variants = @("FVS", "FRVS", "OF-FRV", "FRV")
     }
-    NVS = @{
+    "OF-NTV" = @{
          name = "Nøtterøy videregående skole"
-         variants = @("NVS")
+         variants = @("NVS", "OF-NTV", "NTV")
     }
-    MVS = @{
+    "OF-MEV" = @{
          name = "Melsom videregående skole"
-         variants = @("MVS")
+         variants = @("MVS", "OF-MEV", "MEV")
     }
-    SFVS = @{
+    "OF-SFV" = @{
          name = "Sandefjord videregående skole"
-         variants = @("SFVS", "SVGS")
+         variants = @("SFVS", "SVGS", "OF-SFV", "SFV")
     }
-    THVS = @{
+    "OF-THV" = @{
          name = "Thor Heyerdahl videregående skole"
-         variants = @("THVS")
+         variants = @("THVS", "OF-THV", "THV")
     }
-    BAMVS = @{
+    "OF-BAV" = @{
          name = "Bamble videregående skole"
-         variants = @("BAMVS", "CROVS")
+         variants = @("BAMVS", "CROVS", "OF-BAV", "BAV")
     }
-    BOEVS = @{
+    "OF-BOV" = @{
          name = "Bø videregående skole"
-         variants = @("BOEVS")
+         variants = @("BOEVS", "OF-BOV", "BOV")
     }
-    KLOVS = @{
+    "OF-HJV" = @{
          name = "Hjalmar Johansen videregående skole"
-         variants = @("KLOVS")
+         variants = @("KLOVS", "OF-HJV", "HJV")
     }
-    KRAVS = @{
+    "OF-KRV" = @{
          name = "Kragerø videregående skole"
-         variants = @("KRAVS")
+         variants = @("KRAVS", "OF-KRV", "KRV")
     }
-    NOMVS = @{
+    "OF-NOMV" = @{
          name = "Nome videregående skole"
-         variants = @("NOMVS", "LUNVS", "SOEVS")
+         variants = @("NOMVS", "LUNVS", "SOEVS", "OF-NOMV", "NOMV")
     }
-    NOTVS = @{
+    "OF-NOV" = @{
          name = "Notodden videregående skole"
-         variants = @("NOTVS")
+         variants = @("NOTVS", "OF-NOV", "NOV")
     }
-    PORVS = @{
+    "OF-POV" = @{
          name = "Porsgrunn videregående skole"
-         variants = @("PORVS")
+         variants = @("PORVS", "OF-POV", "POV")
     }
-    RJUVS = @{
+    "OF-RJV" = @{
          name = "Rjukan videregående skole"
-         variants = @("RJUVS")
+         variants = @("RJUVS", "OF-RJV", "RJV")
     }
-    SKIVS = @{
+    "OF-SKIV" = @{
          name = "Skien videregående skole"
-         variants = @("SKIVS")
+         variants = @("SKIVS", "OF-SKIV", "SKIV")
     }
-    SKOVS = @{
+    "OF-SKOV" = @{
          name = "Skogmo videregående skole"
-         variants = @("SKOVS")
+         variants = @("SKOVS", "OF-SKOV", "SKOV")
     }
-    DALVS = @{
+    "OF-VTV" = @{
          name = "Vest-Telemark videregående skole"
-         variants = @("DALVS", "SELVS")
+         variants = @("DALVS", "SELVS", "OF-VTV", "VTV")
     }
-    TELVS = @{
+    <# TELVS = @{
          name = "Telemark fagskole"
          variants = @("TELVS")
     }
@@ -198,12 +198,16 @@ $schools = @{
          variants = @("FIV")
     }
     NETT = @{
-         name = "Nettskolen Vestfold"
-         variants = @("HVS-NETT")
+        name = "Nettskolen Vestfold"
+        variants = @("HVS-NETT")
+    } #>
+    "NIK-FAGS" = @{
+         name = "Fagskolen i Vestfold og Telemark"
+         variants = @("TELVS", "FIV", "NIK-FAGS")
     }
     "OF-SMI" = @{
          name = "Skolen for sosiale og medisinske institusjoner"
-         variants = @("MVS-SMIH")
+         variants = @("MVS-SMIH", "OF-SMI")
     }
 }
 
