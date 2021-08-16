@@ -1,4 +1,4 @@
-﻿param(
+param(
     [Parameter(ParameterSetName = "SAM")]
     [string]$SamAccountName,
 
@@ -27,11 +27,13 @@ Function Get-SdsData {
     )
 
     if ($sds.server -ne ".") {
-        return Invoke-Command -ComputerName $sds.server -ScriptBlock { return Import-Csv -Path "$($Using:sds.folderPath)\$Using:File" -Delimiter $Using:sds.delimiter -Encoding UTF8 | Where-Object { $_.$Using:Header -eq $Using:Value } }
+        $data = Invoke-Command -ComputerName $sds.server -ScriptBlock { return Import-Csv -Path "$($Using:sds.folderPath)\$Using:File" -Delimiter $Using:sds.delimiter -Encoding UTF8 }
     }
     else {
-        return Import-Csv -Path "$($sds.folderPath)\$File" -Delimiter $sds.delimiter -Encoding UTF8 | Where-Object { $_.$Header -eq $Value }
+        $data = Import-Csv -Path "$($sds.folderPath)\$File" -Delimiter $sds.delimiter -Encoding UTF8
     }
+
+    return $data | Where-Object { $_.$Header -eq $Value }
 }
 
 Function Get-SdsEnrollmentData {
@@ -53,12 +55,17 @@ Function Get-SdsEnrollmentData {
             }
         }
         # get enrollment
+        $enrollmentSplat = @{
+            Header = $enrollmentsHeader
+            Value = $_."SIS ID"
+        }
         if ($Type -eq "Student") {
-            $enrollments = Get-SdsData -File "StudentEnrollment.csv" -Header $enrollmentsHeader -Value $_."SIS ID" | Where-Object { $_."Section SIS ID" -match ($schoolIdVariants -join "|") }
+            $enrollmentSplat.Add("File", "StudentEnrollment.csv")
         }
         elseif ($Type -eq "Teacher") {
-            $enrollments = Get-SdsData -File "TeacherRoster.csv" -Header $enrollmentsHeader -Value $_."SIS ID" | Where-Object { $_."Section SIS ID" -match ($schoolIdVariants -join "|") }
+            $enrollmentSplat.Add("File", "TeacherRoster.csv")
         }
+        $enrollments = Get-SdsData @enrollmentSplat | Where-Object { $_."Section SIS ID" -match ($schoolIdVariants -join "|") }
         
         if (!$enrollments) {
             Write-Warning -Message "$($_."SIS ID") has no enrollments on $personSchool !"
