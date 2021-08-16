@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(ParameterSetName = "SAM")]
     [string]$SamAccountName,
 
@@ -49,6 +49,7 @@ Function Get-SdsEnrollmentData {
             person = [ordered]@{
                 samAccountName = $_."SIS ID"
                 schoolId = $personSchool
+                schoolName = $schools.$personSchool.name
                 schoolIdVariants = $schoolIdVariants
                 userPrincipalName = $_.Username
                 type = $Type
