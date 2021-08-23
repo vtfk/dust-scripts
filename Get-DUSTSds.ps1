@@ -69,7 +69,6 @@ Function Get-SdsEnrollmentData {
         $enrollments = Get-SdsData @enrollmentSplat | Where-Object { $_."Section SIS ID" -match ($schoolIdVariants -join "|") }
         
         if (!$enrollments) {
-            Write-Warning -Message "$($_."SIS ID") has no enrollments on $personSchool !"
             $obj.Add("enrollments", @())
         }
         else {
