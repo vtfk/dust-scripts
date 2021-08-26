@@ -1,4 +1,4 @@
-# dust-scripts
+﻿# dust-scripts
 
 Scripts for DUST
 
@@ -33,6 +33,8 @@ $sds = @{
 
 $idm = @{
   autoRun = "<unc-path-autorun-folder-for-post-scripts-from-idm>"
+  server = "FQDN-to-idm-server"
+  tasks = @("list-of-task-names-to-check-for-last-run-time")
 }
 ```
 
