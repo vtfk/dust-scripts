@@ -2,7 +2,7 @@
 . $envPath
 
 $scriptName = "DUSTDBUsers"
-$folder = "$($vigoBas.autoRun)\$scriptName"
+$folder = "$($idm.autoRun)\$scriptName"
 $script = Get-ChildItem -Path "$PSScriptRoot\*" -Include "Update*.ps1" | Select -First 1 | Select -ExpandProperty FullName
 
 $items = Get-ChildItem $folder

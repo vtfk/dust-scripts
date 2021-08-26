@@ -1,4 +1,4 @@
-﻿# dust-scripts
+# dust-scripts
 
 Scripts for DUST
 
@@ -31,8 +31,8 @@ $sds = @{
     delimiter = ","
 }
 
-$vigoBas = @{
-  autoRun = "<unc-path-autorun-folder-for-post-scripts-from-vigo-bas>"
+$idm = @{
+  autoRun = "<unc-path-autorun-folder-for-post-scripts-from-idm>"
 }
 ```
 
