@@ -3,17 +3,17 @@
     [string]$SamAccountName
 )
 
-Function Get-EquiTrackUser {
-    $output = Invoke-Expression -Command "$($equiTrack.path) -s$($equiTrack.server) query ur $SamAccountName"
-    return Get-EquiTrackObject -Output $output -Type Query
+Function Get-EquitracUser {
+    $output = Invoke-Expression -Command "$($equitrac.path) -s$($equitrac.server) query ur $SamAccountName"
+    return Get-EquitracObject -Output $output -Type Query
 }
 
-Function Unlock-EquiTrackUser {
-    $output = Invoke-Expression -Command "$($equiTrack.path) -s$($equiTrack.server) unlock ur $SamAccountName"
-    return Get-EquiTrackObject -Output $output -Type Unlock
+Function Unlock-EquitracUser {
+    $output = Invoke-Expression -Command "$($equitrac.path) -s$($equitrac.server) unlock ur $SamAccountName"
+    return Get-EquitracObject -Output $output -Type Unlock
 }
 
-Function Get-EquiTrackObject {
+Function Get-EquitracObject {
     param(
         [Parameter(Mandatory = $True)]
         $Output,
@@ -75,16 +75,16 @@ $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 if (!$SamAccountName) {
     Write-Error -Message "Missing required parameter: 'SamAccountName' !" -ErrorAction Stop
 }
-if (!(Test-Path -Path $equiTrack.path)) {
+if (!(Test-Path -Path $equitrac.path)) {
     Write-Error -Message "Missing required executable 'EQCmd.exe' !" -ErrorAction Stop
 }
 
-$user = Get-EquiTrackUser
+$user = Get-EquitracUser
 if (!$user) {
     return "[]"
 }
 if ($user.AccountStatus -eq "Locked") {
-    $unlockUser = Unlock-EquiTrackUser
+    $unlockUser = Unlock-EquitracUser
     if ($unlockUser -like "*successfully*") {
         $user.PreviousAccountStatus = $user.AccountStatus
         $user.AccountStatus = "Unlocked"

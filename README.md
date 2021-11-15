@@ -36,9 +36,9 @@ $idm = @{
   file = "lastRun.txt"
 }
 
-$equiTrack = @{
+$equitrac = @{
     path   = "<path-to-EQCmd.exe>" # local path or unc path
-    server = "<hostname-to-EquiTrack-server>" # do not use FQDN as EQCmd.exe doesn't handle this!
+    server = "<hostname-to-Equitrac-server>" # do not use FQDN as EQCmd.exe doesn't handle this!
 }
 ```
 
