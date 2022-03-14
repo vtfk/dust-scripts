@@ -55,18 +55,10 @@ $envPath = Join-Path -Path $PSScriptRoot -ChildPath "envs.ps1"
 
 $searchBase = $ad.baseUnit.Replace("%domain%", $Domain)
 
-$autoUsers = Get-ADUser -SearchBase "$($ad.autoUsers),$searchBase" -Server $domain -Filter $filter -Properties $Properties | Select-Object ($Properties | Sort-Object)
-$autoDisabledUsers = Get-ADUser -SearchBase "$($ad.disabledUsers),$searchBase" -Server $domain -Filter $filter -Properties $Properties | Select-Object ($Properties | Sort-Object)
+$users = Get-ADUser -SearchBase $searchBase -Server $domain -Filter $filter -Properties $Properties | Select-Object ($Properties | Sort-Object)
 
-if ($autoUsers) {
-    if ($autoDisabledUsers) {
-        return ($autoUsers + $autoDisabledUsers) | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
-    }
-
-    return $autoUsers | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
-}
-elseif ($autoDisabledUsers) {
-    return $autoDisabledUsers | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
+if ($users) {
+    return $users | .\Fix-Properties.ps1 | ConvertTo-Json -Depth 20
 }
 else {
     # No user was found :(
