@@ -1,0 +1,19 @@
+{
+  "name": "sds-update",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Rune Moskvil Lyngås",
+    "email": "rune.moskvil.lyngaas@vtfk.no",
+    "url": "https://github.com/runely"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "^16.0.4"
+  }
+}
