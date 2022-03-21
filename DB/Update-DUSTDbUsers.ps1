@@ -34,7 +34,7 @@ $currentLocation = Get-Location | Select-Object -ExpandProperty Path
 try {
     Set-Location -Path $dbUpdateFolder
     Write-Host "Invoking node to update database" -Verbose
-    Invoke-Expression -Command "node .\index.js" -ErrorAction Stop
+    Invoke-Expression -Command "node .\index.js users" -ErrorAction Stop
 }
 catch {
     Write-Error -Message "Failed to update DUST users DB : $_" -ErrorAction Stop

@@ -1,9 +1,10 @@
 const MongoClient = require('mongodb').MongoClient
-const { MONGODB_CONNECTION, MONGODB_COLLECTION, MONGODB_NAME } = require('../config')
+const config = require('../config')
+const { MONGODB_CONNECTION } = config
 
 let client = null
 
-module.exports = function getMongoDb (fn) {
+module.exports = function getMongoDb (type) {
   if (!MONGODB_CONNECTION) {
     console.error('mongo', 'missing MONGODB_CONNECTION')
     throw new Error('Missing env MONGODB_CONNECTION')
@@ -17,7 +18,7 @@ module.exports = function getMongoDb (fn) {
     console.log('mongo', 'new client init')
   } else if (client.isConnected) {
     console.log('mongo', 'client connected', 'quick return')
-    return client.db(MONGODB_NAME).collection(MONGODB_COLLECTION)
+    return client.db(config[`MONGODB_${type.toUpperCase()}_NAME`]).collection(config[`MONGODB_${type.toUpperCase()}_COLLECTION`])
   }
 
   return new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ module.exports = function getMongoDb (fn) {
         return reject(error)
       } else {
         console.log('mongo', 'new client connected')
-        resolve(client.db(MONGODB_NAME).collection(MONGODB_COLLECTION))
+        resolve(client.db(config[`MONGODB_${type.toUpperCase()}_NAME`]).collection(config[`MONGODB_${type.toUpperCase()}_COLLECTION`]))
       }
     })
   })

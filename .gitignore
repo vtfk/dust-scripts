@@ -97,3 +97,4 @@ StyleCop.Cache
 test/tools/Modules/SelfSignedCertificate/
 
 node/db-update/data/*.json
+node/sds-update/data/*.json
