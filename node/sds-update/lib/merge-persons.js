@@ -57,7 +57,7 @@ module.exports = (personType, debug = false) => {
         const sectionId = enrollment['Section SIS ID']
         const section = sections.find(sect => sect['SIS ID'] === sectionId)
         if (!section) {
-          console.warn(`Section not found for ${sectionId}`)
+          console.warn(`Section not found for ${sectionId} for ${type} ${samAccountName} @ ${schoolName}`)
           return {
             sectionId,
             schoolId: '',
