@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "standard"
+    "test": "standard",
+    "start:sds": "node index.js sds",
+    "start:users": "node index.js users"
   },
   "keywords": [],
   "author": {
