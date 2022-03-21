@@ -49,5 +49,6 @@
       console.log(stdout)
     }
     console.timeEnd('updateDB')
+    process.exit(0)
   })
 })()
