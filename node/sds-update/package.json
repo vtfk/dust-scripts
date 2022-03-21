@@ -15,5 +15,11 @@
   "license": "ISC",
   "devDependencies": {
     "standard": "^16.0.4"
+  },
+  "dependencies": {
+    "capitalize": "^2.0.4",
+    "child_process": "^1.0.2",
+    "csv-parse": "^5.0.4",
+    "dotenv": "^16.0.0"
   }
 }

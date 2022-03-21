@@ -1,0 +1,1 @@
+Her legges sds-filene etter de er parsed til json

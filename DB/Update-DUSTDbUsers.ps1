@@ -19,7 +19,7 @@ $adUsers | ConvertTo-Json -Depth 20 | Out-File -FilePath $exportFile -Encoding u
 $currentLocation = Get-Location | Select-Object -ExpandProperty Path
 try {
     Set-Location -Path $dbUpdateFolder
-    Invoke-Expression -Command "node .\index.js" -ErrorAction Stop
+    Invoke-Expression -Command "node .\index.js users" -ErrorAction Stop
 }
 catch {
     Write-Error -Message "Failed to update DUST users DB : $_" -ErrorAction Stop

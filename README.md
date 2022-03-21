@@ -25,12 +25,6 @@ $feide = @{
     searchBase = "OU=People,OU=Feide,DC=<feide-ou-name>,DC=no"
 }
 
-$sds = @{
-    server = "<FQDN-to-sds-server-if-not-local>" # if files are local, set '.'
-    folderPath = "<local-folder-path-to-sds-csv-files>"
-    delimiter = ","
-}
-
 $idm = @{
   autoRun = "<unc-path-autorun-folder-for-post-scripts-from-idm>"
   file = "lastRun.txt"
