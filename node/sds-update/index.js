@@ -3,7 +3,6 @@
   const { join } = require('path')
   const { execFile } = require('child_process')
   const parseFiles = require('./lib/get-sds-files')
-  const mergePersons = require('./lib/merge-persons')
   const debug = false
 
   // convert sds files
@@ -12,6 +11,9 @@
   await parseFiles(debug)
   console.timeEnd('parseSdsFiles')
   debug && console.log('Parsing SDS files finished')
+
+  // this can't be required before one of it's dependencies has been created above.....
+  const mergePersons = require('./lib/merge-persons')
 
   // merge students to export
   debug && console.log('Calling student merge')
