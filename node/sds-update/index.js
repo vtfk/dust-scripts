@@ -34,8 +34,8 @@
     ...require('.\\data\\mergedTeachers.json')
   ]
   console.timeEnd('mergeToSDS')
-  writeFileSync(join(__dirname, `..\\db-update\\data\\sds.json`), JSON.stringify(sds, null, 2), 'utf8')
-  
+  writeFileSync(join(__dirname, '..\\db-update\\data\\sds.json'), JSON.stringify(sds, null, 2), 'utf8')
+
   // write sds data to db
   console.time('updateDB')
   execFile('node', ['..\\db-update\\index.js', 'sds'], { cwd: __dirname }, (error, stdout, stderr) => {

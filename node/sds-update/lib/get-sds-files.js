@@ -10,7 +10,7 @@ const parseCsv = (data, path) => {
       columns: true,
       delimiter: SDS_DELIMITER,
       encoding: 'utf8',
-      skipEmptyLines: true,
+      skipEmptyLines: true
     }
 
     parse(data, options, (error, records) => {
@@ -28,9 +28,9 @@ module.exports = async (debug) => {
   try {
     const files = readdirSync(SDS_PATH)
     for await (const file of files) {
+      const path = join(SDS_PATH, `\\${file}`)
+      const jsonPath = join(__dirname, `..\\data\\${file.toLowerCase().replace('csv', 'json')}`)
       try {
-        const path = join(SDS_PATH, `\\${file}`)
-        const jsonPath = join(__dirname, `..\\data\\${file.toLowerCase().replace('csv', 'json')}`)
         debug && console.log('Reading path:', path)
         const data = readFileSync(path, 'utf8')
         debug && console.log('\tPath read')
@@ -45,6 +45,6 @@ module.exports = async (debug) => {
     }
   } catch (dirError) {
     console.log(`Failed to read files from '${SDS_PATH}' :`, dirError)
-    throw error
+    throw dirError
   }
 }

@@ -65,7 +65,7 @@ module.exports = (personType, debug = false) => {
             sectionCourseDescription: ''
           }
         }
-        
+
         return {
           sectionId,
           schoolId: section['School SIS ID'],
