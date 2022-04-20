@@ -15,7 +15,7 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "standard": "16.0.4"
+    "standard": "17.0.0"
   },
   "dependencies": {
     "capitalize": "^2.0.4",
