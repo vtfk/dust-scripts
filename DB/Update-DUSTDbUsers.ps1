@@ -1,4 +1,4 @@
-Function Update-DUSTADUsers {
+﻿Function Update-DUSTADUsers {
     $adUsers = @()
     Write-Host "Starting AD Users : $(Get-Date -Format 'HH:mm:ss')" -Verbose
 
@@ -52,6 +52,46 @@ Function Update-DUSTADUsers {
     Write-Host "DONE AD Users : $(Get-Date -Format 'HH:mm:ss')" -Verbose
 }
 
+Function Update-DUSTVigoOTUsers {
+    Write-Host "Starting VIGO OT Users : $(Get-Date -Format 'HH:mm:ss')" -Verbose
+
+    # get and update users
+    $currentLocation = Get-Location | Select-Object -ExpandProperty Path
+    try {
+        Set-Location -Path $vigoUpdateFolder
+        Write-Host "Invoking node to get vigo ot users" -Verbose
+        Invoke-Expression -Command "node .\index.js ot" -ErrorAction Stop
+    }
+    catch {
+        Write-Error -Message "Failed to update get and/or update users DB : $_" -ErrorAction Stop
+    }
+    finally {
+        Set-Location -Path $currentLocation
+    }
+
+    Write-Host "DONE VIGO OT Users : $(Get-Date -Format 'HH:mm:ss')" -Verbose
+}
+
+Function Update-DUSTVigoLaerlingUsers {
+    Write-Host "Starting VIGO Laerling Users : $(Get-Date -Format 'HH:mm:ss')" -Verbose
+
+    # get and update users
+    $currentLocation = Get-Location | Select-Object -ExpandProperty Path
+    try {
+        Set-Location -Path $vigoUpdateFolder
+        Write-Host "Invoking node to get vigo laerling users" -Verbose
+        Invoke-Expression -Command "node .\index.js laerling" -ErrorAction Stop
+    }
+    catch {
+        Write-Error -Message "Failed to update get and/or update users DB : $_" -ErrorAction Stop
+    }
+    finally {
+        Set-Location -Path $currentLocation
+    }
+
+    Write-Host "DONE VIGO Laerling Users : $(Get-Date -Format 'HH:mm:ss')" -Verbose
+}
+
 # import environment variables
 $envPath = Join-Path -Path $PSScriptRoot -ChildPath "..\envs.ps1"
 . $envPath
@@ -59,5 +99,14 @@ $envPath = Join-Path -Path $PSScriptRoot -ChildPath "..\envs.ps1"
 # db-update folder path
 $dbUpdateFolder = Resolve-Path -Path "$($PSScriptRoot)\..\node\db-update" | Select-Object -ExpandProperty Path
 
+# vigo-update folder path
+$vigoUpdateFolder = Resolve-Path -Path "$($PSScriptRoot)\..\node\vigo-update" | Select-Object -ExpandProperty Path
+
 # call update functions for AD users
 Update-DUSTADUsers
+
+# call get/update functions for vigo ot kids
+Update-DUSTVigoOTUsers
+
+# call get/update functions for vigo lærling
+Update-DUSTVigoLaerlingUsers
