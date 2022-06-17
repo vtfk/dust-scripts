@@ -6,7 +6,9 @@
   "scripts": {
     "test": "standard",
     "start:sds": "node index.js sds",
-    "start:users": "node index.js users"
+    "start:users": "node index.js users",
+    "start:ot": "node index.js ot",
+    "start:laerling": "node index.js laerling"
   },
   "keywords": [],
   "author": {
