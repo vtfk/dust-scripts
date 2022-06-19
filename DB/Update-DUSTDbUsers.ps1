@@ -1,4 +1,4 @@
-Function Update-DUSTADUsers {
+﻿Function Update-DUSTADUsers {
     $adUsers = @()
     Write-Host "Starting AD Users : $(Get-Date -Format 'HH:mm:ss')" -Verbose
 
@@ -14,7 +14,7 @@ Function Update-DUSTADUsers {
 
     # get ad ot kids from AUTO USERS
     Write-Host "Finding OT 'AUTO USERS' from skole.top.no : $(Get-Date -Format 'HH:mm:ss')" -Verbose
-    $adUsers += D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Base "USERS OT" -Properties givenName,sn,displayName,employeeNumber,department,company,mail,proxyAddresses -OnlyAutoUsers | Select-Object userPrincipalName, samAccountName, givenName, mail, proxyAddresses, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"skole"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, enabled, @{N="ou"; E={"AUTO USERS"}}, @{N="departmentShort"; E={$_.department}}, @{N="office"; E={$_.company}}, @{N="company"; E={$_.company}}, @{N="type"; E={"elev-ot"}}
+    $adUsers += D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Base "USERS OT" -Properties givenName,sn,displayName,employeeNumber,department,company,mail,proxyAddresses,title -OnlyAutoUsers | Select-Object userPrincipalName, samAccountName, givenName, mail, proxyAddresses, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"skole"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, enabled, @{N="ou"; E={"AUTO USERS"}}, @{N="departmentShort"; E={$_.department}}, @{N="office"; E={$_.company}}, @{N="company"; E={$_.company}}, @{N="type"; E={$_.title}}
 
     # get ad users from AUTO DISABLED USERS
     Write-Host "Finding 'AUTO DISABLED USERS' from login.top.no : $(Get-Date -Format 'HH:mm:ss')" -Verbose
@@ -28,7 +28,7 @@ Function Update-DUSTADUsers {
     
     # get ad ot kids from AUTO DISABLED USERS
     Write-Host "Finding OT 'AUTO DISABLED USERS' from skole.top.no : $(Get-Date -Format 'HH:mm:ss')" -Verbose
-    $adUsers += D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Base "USERS OT" -Properties givenName,sn,displayName,employeeNumber,department,company,mail,proxyAddresses -OnlyDisabledAutoUsers | Select-Object userPrincipalName, samAccountName, givenName, mail, proxyAddresses, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"skole"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, enabled, @{N="ou"; E={"AUTO DISABLED USERS"}}, @{N="departmentShort"; E={$_.department}}, @{N="office"; E={$_.company}}, @{N="company"; E={$_.company}}, @{N="type"; E={"elev-ot"}}
+    $adUsers += D:\Scripts\VTFK-Toolbox\AD\Get-VTFKADUser.ps1 -Domain "skole.top.no" -Filter "*" -Base "USERS OT" -Properties givenName,sn,displayName,employeeNumber,department,company,mail,proxyAddresses,title -OnlyDisabledAutoUsers | Select-Object userPrincipalName, samAccountName, givenName, mail, proxyAddresses, @{N="surName"; E={$_.sn}}, displayName, @{N="domain"; E={"skole"}}, employeeNumber, @{N="timestamp"; E={Get-Date -Format o}}, enabled, @{N="ou"; E={"AUTO DISABLED USERS"}}, @{N="departmentShort"; E={$_.department}}, @{N="office"; E={$_.company}}, @{N="company"; E={$_.company}}, @{N="type"; E={$_.title}}
 
     # export users
     $exportFile = "$dbUpdateFolder\data\users.json"
